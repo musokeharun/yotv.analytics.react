@@ -1,0 +1,41 @@
+
+.scrollbar-overlay {
+  overflow: hidden !important;
+}
+
+.scrollbar {
+  overflow: auto;
+}
+.scrollbar::-webkit-scrollbar {
+  visibility: hidden;
+  -webkit-appearance: none;
+  width: 6px;
+  height: 6px;
+  background-color: transparent;
+}
+.scrollbar::-webkit-scrollbar-thumb {
+  visibility: hidden;
+  border-radius: 3px;
+  background-color: var(--falcon-scrollbar-bg);
+}
+.scrollbar:hover::-webkit-scrollbar, .scrollbar:hover::-webkit-scrollbar-thumb, .scrollbar:focus::-webkit-scrollbar, .scrollbar:focus::-webkit-scrollbar-thumb {
+  visibility: visible;
+}
+
+.firefox .scrollbar {
+  overflow: auto !important;
+  scrollbar-color: var(--falcon-scrollbar-bg) transparent;
+  scrollbar-width: thin;
+}
+.firefox .navbar-vibrant .scrollbar {
+  overflow: auto !important;
+  scrollbar-color: rgba(255, 255, 255, 0.4) transparent;
+  scrollbar-width: thin;
+}
+
+.os-theme-dark > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle {
+  background: var(--falcon-scrollbar-bg);
+}
+.os-theme-dark > .os-scrollbar:hover > .os-scrollbar-track > .os-scrollbar-handle, .os-theme-dark > .os-scrollbar:focus > .os-scrollbar-track > .os-scrollbar-handle {
+  background: var(--falcon-scrollbar-bg);
+}

@@ -1,25 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
+import react, {Fragment} from "react";
+import "jquery/dist/jquery.min";
+import "popper.js/dist/popper.min";
+import "bootstrap/dist/js/bootstrap.bundle";
+import "./assets/light.css";
+import "./user.css"
+
+import Sidebar from "./layout/sidebar";
+import Topbar from "./layout/topbar";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <Fragment>
+            <Sidebar/>
+            <div className="main">
+                <Topbar/>
+            </div>
+        </Fragment>
+    );
 }
 
 export default App;
