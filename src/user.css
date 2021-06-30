@@ -27,11 +27,6 @@
   scrollbar-color: var(--falcon-scrollbar-bg) transparent;
   scrollbar-width: thin;
 }
-.firefox .navbar-vibrant .scrollbar {
-  overflow: auto !important;
-  scrollbar-color: rgba(255, 255, 255, 0.4) transparent;
-  scrollbar-width: thin;
-}
 
 .os-theme-dark > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle {
   background: var(--falcon-scrollbar-bg);

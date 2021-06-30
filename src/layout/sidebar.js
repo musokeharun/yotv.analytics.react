@@ -2,7 +2,7 @@ import React from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
     faBalanceScale, faBellSlash, faChartLine,
-    faChartPie, faCog, faCogs, faConciergeBell, faFileContract,
+    faChartPie, faCog, faConciergeBell, faFileContract,
     faFunnelDollar,
     faLocationArrow,
     faPhoneSquareAlt,
@@ -10,6 +10,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import {faDashcube} from "@fortawesome/free-brands-svg-icons";
 import {faTablets} from "@fortawesome/free-solid-svg-icons";
+import {Link} from "react-router-dom";
 
 const Sidebar = () => {
     let darkerBackgroundColor = "#391C4F";
@@ -62,7 +63,7 @@ const Sidebar = () => {
 
             <ul className="sidebar-nav scrollbar" style={{height: "60h", maxHeight: "60vh"}}>
                 <li className="sidebar-item">
-                    <a className="sidebar-link">
+                    <span className="sidebar-link">
                         <FontAwesomeIcon icon={faChartPie} className={"align-middle"}/>
                         <span className="align-middle fs-lg">Overview</span>
                         <span style={cogStyles}>
@@ -71,7 +72,7 @@ const Sidebar = () => {
                                 <FontAwesomeIcon icon={faCog} className={"fa-2x mx-auto"}/>
                               </span>
                               <ul className="dropdown-menu">
-                                   <li><a className="dropdown-item" href="#">Settings</a></li>
+                                   <li><Link className="dropdown-item" to={"/settings"}>Settings</Link></li>
                                     <li><a className="dropdown-item" href="#">Users and Permissions</a></li>
                                     <li><a className="dropdown-item" href="#">Usage</a></li>
                                     <li><hr className="dropdown-divider"/></li>
@@ -79,7 +80,7 @@ const Sidebar = () => {
                               </ul>
                             </div>
                         </span>
-                    </a>
+                    </span>
                 </li>
                 <li className="sidebar-item">
                     <a className="sidebar-link">
@@ -93,21 +94,18 @@ const Sidebar = () => {
                 <li className="sidebar-item">
                     <a className="sidebar-link">
                         <FontAwesomeIcon className={"align-middle"} icon={faFunnelDollar}/>
-
                         <span className="align-middle">Funnel Analysis</span>
                     </a>
                 </li>
                 <li className="sidebar-item">
                     <a className="sidebar-link">
                         <FontAwesomeIcon className={"align-middle"} icon={faStream}/>
-
                         <span className="align-middle">Streams</span>
                     </a>
                 </li>
                 <li className="sidebar-item">
                     <a className="sidebar-link">
                         <FontAwesomeIcon className={"align-middle"} icon={faPhoneSquareAlt}/>
-
                         <span className="align-middle">Devices</span>
                     </a>
                 </li>
@@ -120,7 +118,6 @@ const Sidebar = () => {
                 <li className="sidebar-item">
                     <a className="sidebar-link">
                         <FontAwesomeIcon className={"align-middle"} icon={faLocationArrow}/>
-
                         <span className="align-middle">Location</span>
                     </a>
                 </li>
@@ -129,21 +126,18 @@ const Sidebar = () => {
                 <li className="sidebar-item">
                     <a className="sidebar-link">
                         <FontAwesomeIcon className={"align-middle"} icon={faFileContract}/>
-
                         <span className="align-middle">Reports</span>
                     </a>
                 </li>
                 <li className="sidebar-item">
                     <a className="sidebar-link">
                         <FontAwesomeIcon className={"align-middle"} icon={faBalanceScale}/>
-
                         <span className="align-middle">Comparison</span>
                     </a>
                 </li>
                 <li className="sidebar-item">
                     <a className="sidebar-link">
                         <FontAwesomeIcon className={"align-middle"} icon={faBellSlash}/>
-
                         <span className="align-middle">Alerts</span>
                     </a>
                 </li>
@@ -152,21 +146,18 @@ const Sidebar = () => {
                 <li className="sidebar-item">
                     <a className="sidebar-link">
                         <FontAwesomeIcon className={"align-middle"} icon={faTablets}/>
-
                         <span className="align-middle">Marketing Overview</span>
                     </a>
                 </li>
                 <li className="sidebar-item">
                     <a className="sidebar-link">
                         <FontAwesomeIcon className={"align-middle"} icon={faDashcube}/>
-
                         <span className="align-middle">Social Platforms</span>
                     </a>
                 </li>
                 <li className="sidebar-item">
                     <a className="sidebar-link">
                         <FontAwesomeIcon className={"align-middle"} icon={faConciergeBell}/>
-
                         <span className="align-middle">Notifications</span>
                     </a>
                 </li>
