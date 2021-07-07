@@ -10,7 +10,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import {faDashcube} from "@fortawesome/free-brands-svg-icons";
 import {faTablets} from "@fortawesome/free-solid-svg-icons";
-import {Link} from "react-router-dom";
+import {Link, NavLink} from "react-router-dom";
 
 const Sidebar = () => {
     let darkerBackgroundColor = "#391C4F";
@@ -65,7 +65,8 @@ const Sidebar = () => {
                 <li className="sidebar-item">
                     <span className="sidebar-link">
                         <FontAwesomeIcon icon={faChartPie} className={"align-middle"}/>
-                        <span className="align-middle fs-lg">Overview</span>
+                        <NavLink to={"partner/overview"}
+                                 className="align-middle fs-lg text-decoration-none text-white">Overview</NavLink>
                         <span style={cogStyles}>
                             <div className="dropend">
                               <span data-bs-toggle="dropdown" aria-expanded="false">
