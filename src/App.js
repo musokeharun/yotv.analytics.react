@@ -15,6 +15,7 @@ import PartnerLogin from "./modules/partner/auth/login";
 import {useSelector} from "react-redux";
 import {getUser} from "./modules/partner/auth/authSlice";
 import OverView from "./modules/partner/overview/overView";
+import "sweetalert2/dist/sweetalert2.min.css";
 
 function App() {
     const user = useSelector(getUser);
@@ -29,9 +30,9 @@ function App() {
                     return (
                         <Fragment>
                             <Sidebar/>
-                            <div className="main">
+                            <div className="main scrollbar overflow-auto" style={{maxHeight: "100vh"}}>
                                 <TopBar/>
-                                <main className="content">
+                                <main className="content ">
                                     <div className="container-fluid p-0">
                                         <Switch>
                                             <Route path={"/settings"} exact render={props => <Settings {...props} />}/>
