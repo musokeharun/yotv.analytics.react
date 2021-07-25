@@ -7,20 +7,22 @@ import {getUser} from "../auth/authSlice";
 import welcome from "../../../assets/welcom.png";
 import {faArrowUp, faChartLine, faEllipsisH, faTv, faUserAlt} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {fetchDashBoard, fetchRealtime, selectRealtime} from "./overviewSlice";
+import {fetchDashBoard, fetchRealtime, selectDashboard, selectRealtime} from "./overviewSlice";
 import classNames from "classnames";
 import {DateTime} from "luxon";
 import {v1} from "uuid";
 import CountUp from "react-countup";
 import RealtimeChart from "./realtimechart";
-
+import Timeline from "./timeline";
+import $ from "jquery";
 
 const OverView = () => {
     let user = useSelector(getUser);
     let dispatch = useDispatch();
     let realtime = useSelector(selectRealtime);
+    let dashboard = useSelector(selectDashboard);
 
-    console.log(realtime);
+    console.log("Dash", dashboard);
 
     useEffect(() => {
         dispatch(fetchRealtime())
@@ -89,170 +91,177 @@ const OverView = () => {
         return {totals, result, live};
     }
 
+    const getCurrentEpgList = (user) => {
+
+        if (user) {
+
+        }
+        return {};
+
+    }
+
     let {start, end, duration, title, used, now} = getCurrentEpg(epg);
     console.log(start, end, duration, title, used, now);
 
     let {result, totals, live} = getRealtimeStats(dataSources);
     console.log("Result", result);
 
-
     let usedPercentage = Math.abs(used / duration) * 100;
     console.log("Used", usedPercentage);
+
+    const realTimeChartHeight = () => {
+        let realtimechart = $("#realtimechart");
+        if (!realtimechart.length || realtimechart.length === 0) return 0;
+        let height = realtimechart.innerHeight()
+        console.log("Height", height);
+        return height;
+    }
+
     return (
         <Fragment>
 
             <PageHeader label={"Overview"}/>
 
-            <div className="row">
-                <div className="col-xl-5 d-flex h-100">
-                    <div className="w-100 h-100">
-                        <div className="row h-100">
-
-                            {/*WELCOME BACK*/}
-                            <div className="col-sm-6 col-lg-12 col-xxl-6 d-flex">
-                                <div className="card illustration flex-fill">
-                                    <div className="card-body p-0 d-flex flex-fill">
-                                        <div className="row g-0 w-100">
-                                            <div className="col-6">
-                                                <div className="illustration-text p-3 m-1">
-                                                    <h6 className="illustration-text">
-                                                        Welcome Back, {_.capitalize(user.name.toLowerCase())}!
-                                                    </h6>
-                                                    <p className="mb-0">Console <span
-                                                        className={"badge badge-soft-danger"}>
-                                                        YOTV
-                                                    </span></p>
-                                                </div>
-                                            </div>
-                                            <div className="col-6 align-self-end text-end">
-                                                <img
-                                                    src={welcome}
-                                                    alt="Welcome"
-                                                    className="img-fluid illustration-img"
-                                                />
-                                            </div>
-                                        </div>
+            <div className="row h-100">
+                {/*WELCOME BACK*/}
+                <div className="col-lg-6 col-xxl-3 d-flex">
+                    <div className="card illustration flex-fill">
+                        <div className="card-body p-0 d-flex flex-fill">
+                            <div className="row g-0 w-100">
+                                <div className="col-6">
+                                    <div className="illustration-text p-3 m-1">
+                                        <h6 className="illustration-text">
+                                            Welcome Back, {_.capitalize(user.name.toLowerCase())}!
+                                        </h6>
+                                        <p className="mb-0">Console
+                                            <span className={"badge badge-soft-danger"}>
+                                                            YOTV
+                                                            </span>
+                                        </p>
                                     </div>
                                 </div>
-                            </div>
-
-                            <div className="col-sm-6 col-lg-12 col-xxl-6 d-flex">
-                                <div className={classNames("card flex-fill", {"shine": !okay})}>
-                                    <div className="card-body">
-                                        <div className="row">
-                                            <div className="col mt-0">
-                                                <h5 className="card-title font-weight-bold">
-                                                    {title ? title : ""}
-
-                                                </h5>
-                                            </div>
-                                            <div className="col-auto" title={"Current Epg"}>
-                                                <div className="stat stat-sm">
-                                                    <FontAwesomeIcon icon={faTv}/>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <span className={"badge badge-soft-primary"}>Start</span>
-                                        <span className={"font-weight-bold"}>
-                                                {start ? start.toFormat("t") : ""}
-                                            </span>
-                                        <div className="progress my-lg-4 my-2">
-                                            {!!used &&
-                                            <div
-                                                className="progress-bar progress-bar-striped progress-bar-animated text-center"
-                                                role="progressbar" aria-valuenow="75" aria-valuemin="0"
-                                                aria-valuemax="100"
-                                                style={{width: `${usedPercentage}%`}}>
-                                                {now ? now.toFormat("t") : ""}
-                                            </div>
-                                            }
-
-                                        </div>
-                                        <div className="mb-0 d-flex flex-row align-items-center justify-content-end">
-                                            <span className={"badge badge-soft-primary"}>End</span>
-                                            <span className={"font-weight-bold"}>
-                                                {end ? end.toFormat("t") : ""}
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-
-
-                        <div className="row d-flex">
-                            <div className="col-sm-6 col-lg-12 col-xxl-6 d-flex">
-                                <div className="card flex-fill">
-                                    <div className="card-body">
-                                        <div className="row">
-                                            <div className="col mt-0">
-                                                <h5 className="card-title">Real-Time</h5>
-                                            </div>
-
-                                            <div className="col-auto">
-                                                <div
-                                                    className="stat stat-sm d-flex align-items-center justify-content-center">
-                                                    <FontAwesomeIcon icon={faChartLine} className={"align-middle"}/>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <span className="h1 d-inline-block mt-1 mb-4">
-                                            <CountUp end={live} separator=","/>
-                                        </span>
-                                        <div className="mb-0" title={200}>
-                                            <span className="badge badge-soft-success me-2">
-                                                <FontAwesomeIcon icon={faArrowUp}/>
-                                                +5.25%
-                                            </span>
-                                            <span className="text-muted">LIVE</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-sm-6 col-lg-12 col-xxl-6 d-flex">
-                                <div className={classNames("card flex-fill", {"shine": !okay})}>
-                                    <div className="card-body">
-                                        <div className="row">
-                                            <div className="col mt-0">
-                                                <h5 className="card-title">Visitors</h5>
-                                            </div>
-
-                                            <div className="col-auto">
-                                                <div
-                                                    className="stat stat-sm d-flex justify-content-center align-items-center">
-                                                    <FontAwesomeIcon icon={faUserAlt} className={"align-middle"}/>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <span className="h1 d-inline-block mt-1 mb-4">
-                                            {(epg && epg.count) ? epg.count.toLocaleString() : 0}
-                                        </span>
-                                        <div className="mb-0">
-                                            <span className="badge badge-soft-danger me-2">
-                                              <i className="mdi mdi-arrow-bottom-right"/> -1.25%
-                                            </span>
-                                            <span className="text-muted">Last week</span>
-                                        </div>
-                                    </div>
+                                <div className="col-6 align-self-end text-end">
+                                    <img
+                                        src={welcome}
+                                        alt="Welcome"
+                                        className="img-fluid illustration-img"
+                                    />
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
-                <div className={classNames("col-xl-7", {"shine": !okay})}>
+                <div className="col-lg-6 col-xxl-3 d-flex">
+                    <div className={classNames("card flex-fill", {"shine": !okay})}>
+                        <div className="card-body">
+                            <div className="row">
+                                <div className="col mt-0">
+                                    <h5 className="card-title font-weight-bold">
+                                        {title ? title : ""}
+
+                                    </h5>
+                                </div>
+                                <div className="col-auto" title={"Current Epg"}>
+                                    <div className="stat stat-sm">
+                                        <FontAwesomeIcon icon={faTv}/>
+                                    </div>
+                                </div>
+                            </div>
+                            <span className={"badge badge-soft-primary"}>Start</span>
+                            <span className={"font-weight-bold"}>
+                                                    {start ? start.toFormat("t") : ""}
+                                                        </span>
+                            <div className="progress my-lg-4 my-2">
+                                {!!used &&
+                                <div
+                                    className="progress-bar progress-bar-striped progress-bar-animated text-center"
+                                    role="progressbar" aria-valuenow="75" aria-valuemin="0"
+                                    aria-valuemax="100"
+                                    style={{width: `${usedPercentage}%`}}>
+                                    {now ? now.toFormat("t") : ""}
+                                </div>
+                                }
+
+                            </div>
+                            <div className="mb-0 d-flex flex-row align-items-center justify-content-end">
+                                <span className={"badge badge-soft-primary"}>End</span>
+                                <span className={"font-weight-bold"}>
+                                                {end ? end.toFormat("t") : ""}
+                                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="col-lg-6 col-xxl-3 d-flex">
+                    <div className="card flex-fill">
+                        <div className="card-body">
+                            <div className="row">
+                                <div className="col mt-0">
+                                    <h5 className="card-title">Real-Time</h5>
+                                </div>
+
+                                <div className="col-auto">
+                                    <div
+                                        className="stat stat-sm d-flex align-items-center justify-content-center">
+                                        <FontAwesomeIcon icon={faChartLine} className={"align-middle"}/>
+                                    </div>
+                                </div>
+                            </div>
+                            <span className="h1 d-inline-block mt-1 mb-4">
+                                                <CountUp end={live} separator=","/>
+                                                </span>
+                            <div className="mb-0" title={200}>
+                                                <span className="badge badge-soft-success me-2">
+                                                <FontAwesomeIcon icon={faArrowUp}/>
+                                                +5.25%
+                                                </span>
+                                <span className="text-muted">LIVE</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="col-lg-6 col-xxl-3 d-flex">
+                    <div className={classNames("card flex-fill", {"shine": !okay})}>
+                        <div className="card-body">
+                            <div className="row">
+                                <div className="col mt-0">
+                                    <h5 className="card-title">Visitors</h5>
+                                </div>
+
+                                <div className="col-auto">
+                                    <div
+                                        className="stat stat-sm d-flex justify-content-center align-items-center">
+                                        <FontAwesomeIcon icon={faUserAlt} className={"align-middle"}/>
+                                    </div>
+                                </div>
+                            </div>
+                            <span className="h1 d-inline-block mt-1 mb-4">
+                {(epg && epg.count) ? epg.count.toLocaleString() : 0}
+                    </span>
+                            <div className="mb-0">
+                    <span className="badge badge-soft-danger me-2">
+                    <i className="mdi mdi-arrow-bottom-right"/> -1.25%
+                    </span>
+                                <span className="text-muted">Last week</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className={"row"}>
+                <div id={"realtimechart"} className={classNames("col-lg-8 col-xl-7", {"shine": !okay})}>
                     <div className="card flex-fill w-100 bg-primary-dark">
                         <div className="card-header bg-transparent light">
-                            <h5 className="text-white">Users online right now</h5>
-                            <div className="real-time-user display-1 fw-normal text-white">
+                            <h6 className="text-white">Users online right now</h6>
+                            <div className="real-time-user display-3 fw-normal text-white">
                                 {!!live && <CountUp end={live} separator=","/>}
                             </div>
                         </div>
                         <div className="card-body text-white fs--1 light pb-0">
                             <p className="border-bottom"
                                style={{borderColor: "rgba(255, 255, 255, 0.15) !important"}}>Users per 5min</p>
-                            <div style={{height: "10rem"}} className={"bg-light"}>
+                            <div style={{height: "9rem"}} className={"bg-transparent"}>
                                 <RealtimeChart
                                     data={result && result.map(r => r.value)}
                                     axisData={result && result.map(r => r.key)}
@@ -270,7 +279,7 @@ const OverView = () => {
                                                     {_.capitalize(key.toLowerCase())}
                                                     <span className={"badge bg-danger"}>
                                                         <CountUp end={value} separator=","/>
-                                                    </span>
+                                                        </span>
                                                 </p>
                                             ))
                                         }
@@ -280,19 +289,13 @@ const OverView = () => {
                         </div>
                     </div>
                 </div>
-            </div>
-
-            {/*STARTED*/}
-            <div className="row flex-lg-row-reverse">
-
                 {/*LIST*/}
-                <div className="col-12 col-lg-6 col-xl-4 d-flex">
-                    <div className="card flex-fill w-100">
+                <div className="col-lg-4 col-xl-5 d-flex">
+                    <div className="card flex-fill w-100 scrollbar" style={{height: realTimeChartHeight()}}>
                         <div className="card-header">
                             <div className="card-actions float-end">
                                 <div className="dropdown show">
                                     <a
-                                        href="#"
                                         data-bs-toggle="dropdown"
                                         data-bs-display="static"
                                     >
@@ -304,10 +307,6 @@ const OverView = () => {
 
                                     <div className="dropdown-menu dropdown-menu-end">
                                         <a className="dropdown-item" href="#">Action</a>
-                                        <a className="dropdown-item" href="#">Another action</a>
-                                        <a className="dropdown-item" href="#"
-                                        >Something else here</a
-                                        >
                                     </div>
                                 </div>
                             </div>
@@ -315,27 +314,24 @@ const OverView = () => {
                         </div>
                         <div className="card-body">
                             <ul className="timeline">
-                                <li className="timeline-item">
-                                    <strong>#3939</strong>
-                                    <span className="float-end text-muted text-sm">30m ago</span>
-                                    <div className="progress position-relative">
-                                        <div
-                                            className="progress-bar bg-primary-light current-epg-width position-absolute start-0 bottom-0 top-0 h-100"
-                                            role="progressbar"
-                                            style={{width: "45%"}}
-                                            aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"/>
-                                        <div
-                                            className="progress-bar bg-success position-absolute bottom-0 top-0 h-100"
-                                            role="progressbar"
-                                            style={{width: "35%", left: "5%"}}
-                                            aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"/>
-                                    </div>
-                                </li>
+                                {
+                                    epg && epg.list &&
+                                    epg.list.map(user => {
+                                        const {} = getCurrentEpgList();
+                                        return (
+                                            <li className="timeline-item">
+                                                <Timeline key={v1()}/>
+                                            </li>
+                                        )
+                                    })
+                                }
                             </ul>
                         </div>
                     </div>
                 </div>
+            </div>
 
+            <div className="row flex-lg-row-reverse">
                 <div className="col-12 col-lg-8 d-flex">
                     <div className="card flex-fill w-100">
                         <div className="card-header">
@@ -367,12 +363,8 @@ const OverView = () => {
                         </div>
                     </div>
                 </div>
-
-
             </div>
-
         </Fragment>
     );
-};
-
+}
 export default OverView;

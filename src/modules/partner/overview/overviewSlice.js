@@ -17,9 +17,13 @@ export const fetchRealtime = createAsyncThunk(
         return data;
     })
 
-export const fetchDashBoard = () => createAsyncThunk("overview/dashboard", async () => {
-
-})
+export const fetchDashBoard = createAsyncThunk(
+    "overview/dashboard",
+    async () => {
+        let {data} = await Http.get("partner/dashboard");
+        // console.log(data);
+        return data;
+    })
 
 let overviewSlice = createSlice({
     name: "overview",
@@ -45,9 +49,19 @@ let overviewSlice = createSlice({
                     title: "Could not fetch data",
                     icon: "error"
                 }).then((e) => console.error("Toasted", e))
-            });
+            })
+            .addCase(fetchDashBoard.pending, (state => {
+                toastLoading.fire({
+                    title: "Retrieving Data",
+                }).then(r => console.log("Toasted"))
+            }))
+            .addCase(fetchDashBoard.fulfilled, (state, action) => {
+                state.dashboard = action.payload;
+                toastLoading.close();
+            })
     }
 });
 
 export const selectRealtime = (state) => state.overview.realtime;
+export const selectDashboard = (state) => state.overview.dashboard;
 export default overviewSlice.reducer;

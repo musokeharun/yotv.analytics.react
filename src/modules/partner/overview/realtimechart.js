@@ -7,7 +7,6 @@ const RealtimeChart = ({axisData, data}) => {
     const optionsLine = {
         chart: {
             height: 250,
-            type: 'line',
             stacked: true,
             animations: {
                 enabled: true,
@@ -34,10 +33,11 @@ const RealtimeChart = ({axisData, data}) => {
             enabled: false
         },
         stroke: {
-            curve: 'straight',
-            width: 5,
+            curve: 'smooth',
+            width: 0,
         },
         grid: {
+            show: false,
             padding: {
                 left: 0,
                 right: 0
@@ -55,7 +55,10 @@ const RealtimeChart = ({axisData, data}) => {
         },],
         xaxis: {
             type: 'datetime',
-            categories: axisData
+            categories: axisData,
+            labels: {
+                datetimeUTC: false
+            }
         },
         legend: {
             show: true,
@@ -68,10 +71,30 @@ const RealtimeChart = ({axisData, data}) => {
             offsetY: -28,
             offsetX: 60
         },
+        yaxis: {
+            show: false
+        },
+        tooltip: {
+            theme: "dark",
+            x: {
+                show: true,
+                format: "HH:mm"
+            }
+        },
+        plotOptions: {
+            bar: {
+                columnWidth: "95%"
+            }
+        }
     };
 
-    return <ReactApex/>;
-
+    return (
+        <ReactApex
+            series={[{name: "Users", data}]}
+            type={"area"}
+            height={"100%"}
+            options={optionsLine}/>
+    );
 }
 
 RealtimeChart.defaultProps = {
