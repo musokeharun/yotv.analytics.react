@@ -17,12 +17,15 @@ import {getUser} from "./modules/partner/auth/authSlice";
 import OverView from "./modules/partner/overview/overView";
 import "sweetalert2/dist/sweetalert2.min.css";
 
+import TimePicker from "./common/TimePicker";
+
 function App() {
     const user = useSelector(getUser);
 
     return (
         <HashRouter>
             <Switch>
+                <Route exact path={"/"} component={TimePicker}/>
                 <Route path={"/admin/login"} render={props => <AdminLogin {...props}/>}/>
                 <Route path={"/partner/login"} render={props => <PartnerLogin {...props}/>}/>
                 <Route path={"/"} render={props => {
